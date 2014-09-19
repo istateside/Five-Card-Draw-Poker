@@ -2,14 +2,16 @@ require 'deck.rb'
 
 class Hand
 
-  # Create constant of hand values
-
   attr_reader :deck
   attr_accessor :cards
 
   def initialize(deck)
     @deck = deck
     @cards = deck.take(5)
+  end
+
+  def display
+    @cards.map(&:to_s).join(' ')
   end
 
   def values
@@ -25,6 +27,16 @@ class Hand
     raise "Card not in hand" unless @cards.include?(card)
     @cards.delete(card)
     @cards += @deck.take(1)
+  end
+
+  def beats_hand?(other_hand)
+    if self.strength > other_hand.strength
+      return true
+    elsif self.strength < other_hand.strength
+      return false
+    else
+      self.high_card > other_hand.high_card
+    end
   end
 
   def strength

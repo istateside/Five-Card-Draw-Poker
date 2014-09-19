@@ -370,12 +370,17 @@ describe Hand do
           ]
         end
       end
-
-
-
-      describe "#beats_hand?"
-
-      end
-
     end
+  end
+
+  describe "#beats_hand?" do
+
+    it 'compares two hands'
+
+    it 'returns true if hand strength is greater than opponent\'s'
+
+    it 'returns false if hand strength is less than opponent\'s'
+
+  end
+
 end
