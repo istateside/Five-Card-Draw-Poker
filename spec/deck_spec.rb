@@ -38,7 +38,8 @@ describe Deck do
     let(:deck) { Deck.new(cards.dup) }
 
     it "takes cards from top of deck" do
-      expect(deck.take(1)).to eq([cards.first])
+      card = deck.cards[0]
+      expect(deck.take(1)).to eq([card])
     end
 
     it "takes cards away from the deck" do

@@ -15,7 +15,7 @@ class Deck
   end
 
   def initialize(cards= Deck.all_cards)
-    @cards = cards
+    @cards = cards.shuffle
   end
 
   def take(n)

@@ -37,4 +37,8 @@ class Card
     @value = value
   end
 
+  def ==(other_card)
+    (self.value == other_card.value) && (self.suit == other_card.suit)
+  end
+
 end
