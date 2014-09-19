@@ -192,8 +192,6 @@ describe Hand do
 
       end
 
-      describe "#straight"
-
       describe "#three_of_a_kind?" do
 
         it "returns true if there are three of a kind in the hand" do
@@ -219,6 +217,161 @@ describe Hand do
         end
 
       end
+
+      describe "#straight?" do
+
+        it "returns true if the card values are in sequential order" do
+          hand.cards = [
+            Card.new(:diamonds, :queen),
+            Card.new(:diamonds, :jack),
+            Card.new(:clubs, :ten),
+            Card.new(:hearts, :nine),
+            Card.new(:spades, :eight)
+          ]
+
+          expect(hand.straight?).to eq(true)
+        end
+
+        it "returns false if the card values are not in sequential order" do
+          hand.cards = [
+            Card.new(:diamonds, :queen),
+            Card.new(:diamonds, :jack),
+            Card.new(:clubs, :ten),
+            Card.new(:hearts, :five),
+            Card.new(:spades, :eight)
+          ]
+          expect(hand.straight?).to eq(false)
+        end
+
+      end
+
+      describe '#flush?' do
+
+        it "returns true when all five cards have the same suit" do
+          hand.cards = [
+            Card.new(:spades, :ace),
+            Card.new(:spades, :ten),
+            Card.new(:spades, :five),
+            Card.new(:spades, :three),
+            Card.new(:spades, :jack)
+          ]
+
+          expect(hand.flush?).to eq(true)
+        end
+
+        it "returns false when card suits are not identical" do
+          hand.cards = [
+            Card.new(:spades, :ace),
+            Card.new(:spades, :ten),
+            Card.new(:hearts, :five),
+            Card.new(:spades, :three),
+            Card.new(:spades, :jack)
+          ]
+
+          expect(hand.flush?).to eq(false)
+        end
+
+      end
+
+      describe '#full_house?' do
+
+        it 'returns true when a hand has both three of a kind and one pair' do
+          hand.cards = [
+            Card.new(:diamonds, :queen),
+            Card.new(:diamonds, :eight),
+            Card.new(:clubs, :queen),
+            Card.new(:hearts, :queen),
+            Card.new(:spades, :eight)
+          ]
+          expect(hand.full_house?).to eq(true)
+        end
+
+        it 'returns false if hand does not contain a triplet and a pair' do
+          hand.cards = [
+            Card.new(:diamonds, :queen),
+            Card.new(:diamonds, :jack),
+            Card.new(:clubs, :ten),
+            Card.new(:hearts, :nine),
+            Card.new(:spades, :eight)
+          ]
+          expect(hand.full_house?).to eq(false)
+        end
+      end
+
+      describe '#four_of_a_kind?' do
+
+        it 'returns true if there are four cards of identical value' do
+          hand.cards = [
+            Card.new(:diamonds, :queen),
+            Card.new(:diamonds, :jack),
+            Card.new(:clubs, :jack),
+            Card.new(:hearts, :jack),
+            Card.new(:spades, :jack)
+          ]
+          expect(hand.four_of_a_kind?).to eq(true)
+        end
+
+        it 'returns false if there are not four identical values represented' do
+          hand.cards = [
+            Card.new(:diamonds, :queen),
+            Card.new(:diamonds, :jack),
+            Card.new(:clubs, :ten),
+            Card.new(:hearts, :five),
+            Card.new(:spades, :eight)
+          ]
+          expect(hand.four_of_a_kind?).to eq(false)
+        end
+      end
+
+      describe '#straight_flush?' do
+
+        it 'returns true if hand has five sequential cards of the same suit' do
+          hand.cards = [
+            Card.new(:spades, :king),
+            Card.new(:spades, :queen),
+            Card.new(:spades, :jack),
+            Card.new(:spades, :ten),
+            Card.new(:spades, :nine)
+          ]
+          expect(hand.straight_flush?).to eq(true)
+        end
+
+        it 'returns false if hand doesn\'t have five sequential same-suit cards' do
+          hand.cards = [
+            Card.new(:spades, :ace),
+            Card.new(:hearts, :seven),
+            Card.new(:spades, :queen),
+            Card.new(:spades, :jack),
+            Card.new(:spades, :ten)
+          ]
+          expect(hand.straight_flush?).to eq(false)
+        end
+      end
+
+      describe '#royal_flush?' do
+
+        it 'returns true if hand has a straight flush starting with an ace' do
+          hand.cards = [
+            Card.new(:spades, :ace),
+            Card.new(:spades, :king),
+            Card.new(:spades, :queen),
+            Card.new(:spades, :jack),
+            Card.new(:spades, :ten)
+          ]
+        end
+
+        it 'returns false if hand does not start with an ace' do
+          hand.cards = [
+            Card.new(:spades, :seven),
+            Card.new(:hearts, :king),
+            Card.new(:spades, :queen),
+            Card.new(:spades, :jack),
+            Card.new(:spades, :ten)
+          ]
+        end
+      end
+
+
 
       describe "#beats_hand?"
 

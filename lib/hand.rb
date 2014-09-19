@@ -1,4 +1,4 @@
-require 'deck'
+require 'deck.rb'
 
 class Hand
 
@@ -12,10 +12,32 @@ class Hand
     @cards = deck.take(5)
   end
 
+  def values
+    self.sort
+    @cards.map(&:value)
+  end
+
+  def suits
+    @cards.map(&:suit)
+  end
+
   def replace(card)
     raise "Card not in hand" unless @cards.include?(card)
     @cards.delete(card)
     @cards += @deck.take(1)
+  end
+
+  def strength
+    return 9 if royal_flush?
+    return 8 if straight_flush?
+    return 7 if four_of_a_kind?
+    return 6 if full_house?
+    return 5 if flush?
+    return 4 if straight?
+    return 3 if three_of_a_kind?
+    return 2 if two_pair?
+    return 1 if one_pair?
+    return 0
   end
 
   def high_card
@@ -39,6 +61,30 @@ class Hand
     value_counts.values.count(3) == 1
   end
 
+  def four_of_a_kind?
+    value_counts.values.count(4) == 1
+  end
+
+  def full_house?
+    self.one_pair? && self.three_of_a_kind?
+  end
+
+  def straight?
+    value_string = Card.values.reverse.join(' ')
+    value_string.include?(self.values.join(' '))
+  end
+
+  def flush?
+    self.suits.uniq.count == 1
+  end
+
+  def straight_flush?
+    self.straight? && self.flush?
+  end
+
+  def royal_flush?
+    self.straight_flush? && self.values.include?(:ace)
+  end
 
   def value_counts
     counts = Hash.new(0)
